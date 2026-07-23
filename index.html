@@ -253,6 +253,19 @@
     border: 1px dashed var(--border);
     padding: 9px 14px; border-radius: 8px;
   }
+  .play-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; color: var(--bg);
+    background: var(--gold);
+    border: 1px solid transparent;
+    padding: 9px 14px; border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .play-badge:hover { background: var(--gold-deep); transform: translateY(-1px); }
+  .play-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .app-shot { border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+  .app-shot img { width: 100%; display: block; }
 
   /* ---------- indicator / feature rows ---------- */
   .indicator-list { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
@@ -399,6 +412,7 @@
           </div>
         </div>
         <p class="desc" data-i18n="fx_desc">تداول أزواج العملات الرئيسية والذهب بأسعار حية من Twelve Data، مع رافعة مالية حقيقية (1x–100x) ونداء هامش تلقائي يحميك من خسارة تتجاوز رأس مالك.</p>
+        <div class="app-shot"><img src="/shots/fx-home.png" alt="KINGALSAAB FX app screenshot" loading="lazy" width="420" height="933"></div>
         <div class="chip-row">
           <span class="chip" data-i18n="chip_leverage">رافعة مالية</span>
           <span class="chip" data-i18n="chip_stoploss">وقف خسارة</span>
@@ -406,7 +420,10 @@
           <span class="chip">عربي / English</span>
         </div>
         <div class="app-links">
-          <span class="soon-badge" data-i18n="soon">قريباً على Google Play</span>
+          <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.kingalsaab.kingalsaab_fx" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.1c-.3.3-.5.7-.5 1.2v17.4c0 .5.2.9.5 1.2l.1.1L13.9 12 3.7 2 3.6 2.1zM17 8.4l-3-1.7-3.3 3.3L14 13.3l3-1.7c.8-.5.8-2.5 0-3zM4.3 21.5l9.4-9.4-9.4-9.4c-.3.3-.5.7-.5 1.2v16.4c0 .5.2.9.5 1.2z"/></svg>
+            <span data-i18n="get_it_play">حمّل من Google Play (اختبار مغلق)</span>
+          </a>
         </div>
       </article>
 
@@ -419,6 +436,7 @@
           </div>
         </div>
         <p class="desc" data-i18n="trader_desc">تداول العملات المشفرة الرئيسية بأسعار Binance الحية، مع دفتر أوامر مباشر، تحليل فني محلي، ونظام تعلّم متدرج من الصفر.</p>
+        <div class="app-shot"><img src="/shots/trader-home.png" alt="KINGALSAAB Trader app screenshot" loading="lazy" width="420" height="933"></div>
         <div class="chip-row">
           <span class="chip" data-i18n="chip_orderbook">دفتر أوامر حي</span>
           <span class="chip" data-i18n="chip_stoploss">وقف خسارة</span>
@@ -426,7 +444,10 @@
           <span class="chip">عربي / English</span>
         </div>
         <div class="app-links">
-          <span class="soon-badge" data-i18n="soon">قريباً على Google Play</span>
+          <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.kingalsaab.kingalsaab_trader" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.1c-.3.3-.5.7-.5 1.2v17.4c0 .5.2.9.5 1.2l.1.1L13.9 12 3.7 2 3.6 2.1zM17 8.4l-3-1.7-3.3 3.3L14 13.3l3-1.7c.8-.5.8-2.5 0-3zM4.3 21.5l9.4-9.4-9.4-9.4c-.3.3-.5.7-.5 1.2v16.4c0 .5.2.9.5 1.2z"/></svg>
+            <span data-i18n="get_it_play">حمّل من Google Play (اختبار مغلق)</span>
+          </a>
         </div>
       </article>
     </div>
@@ -586,6 +607,7 @@
       chip_stoploss: "وقف خسارة",
       chip_pairs: "٨ أزواج عملات",
       soon: "قريباً على Google Play",
+      get_it_play: "حمّل من Google Play (اختبار مغلق)",
       trader_desc: "تداول العملات المشفرة الرئيسية بأسعار Binance الحية، مع دفتر أوامر مباشر، تحليل فني محلي، ونظام تعلّم متدرج من الصفر.",
       chip_orderbook: "دفتر أوامر حي",
       chip_ta: "تحليل فني",
@@ -645,6 +667,7 @@
       chip_stoploss: "Stop-loss",
       chip_pairs: "8 currency pairs",
       soon: "Coming soon to Google Play",
+      get_it_play: "Get it on Google Play (closed testing)",
       trader_desc: "Trade major cryptocurrencies at live Binance prices, with a live order book, local technical analysis, and a progressive learning path from zero.",
       chip_orderbook: "Live order book",
       chip_ta: "Technical analysis",
@@ -737,9 +760,13 @@
 
   function resize() {
     var rect = canvas.getBoundingClientRect();
+    // Guard against a 0-size read (layout/fonts not settled yet on first paint) —
+    // sizing the canvas to 0 here would make every future draw() silently no-op.
+    if (rect.width < 2 || rect.height < 2) return false;
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return true;
   }
 
   // Seeded pseudo-random walk so the demo chart looks like a real session, not noise.
@@ -769,6 +796,7 @@
   function draw() {
     var rect = canvas.getBoundingClientRect();
     var w = rect.width, h = rect.height;
+    if (w < 2 || h < 2) return;
     var c = themeColors();
     ctx.clearRect(0, 0, w, h);
 
@@ -841,8 +869,16 @@
     draw();
   }
 
-  resize();
-  draw();
+  // First paint: retry a few frames until the layout actually has a size
+  // (fonts/grid can still be settling right when this inline script runs).
+  (function initialRender(attemptsLeft) {
+    var sized = resize();
+    draw();
+    if (!sized && attemptsLeft > 0) {
+      requestAnimationFrame(function () { initialRender(attemptsLeft - 1); });
+    }
+  })(30);
+
   window.addEventListener('resize', function () { resize(); draw(); });
 
   if (!reduceMotion) {

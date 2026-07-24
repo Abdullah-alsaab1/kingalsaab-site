@@ -396,13 +396,7 @@
     display: inline-flex;
     align-items: center;
     direction: ltr;
-    animation: tickerScroll 38s linear infinite;
     will-change: transform;
-  }
-  .ticker-strip:hover .ticker-strip-track { animation-play-state: paused; }
-  @keyframes tickerScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
   }
   .ticker-item {
     display: inline-flex; align-items: baseline; gap: 8px;
@@ -417,9 +411,6 @@
   .ticker-item .chg { font-variant-numeric: tabular-nums; }
   .ticker-item .chg.up { color: var(--green); }
   .ticker-item .chg.down { color: var(--red); }
-  @media (prefers-reduced-motion: reduce) {
-    .ticker-strip-track { animation: none; }
-  }
 </style>
 </head>
 <body>
@@ -716,10 +707,16 @@
 
   /* ---------------- live price ticker strip ---------------- */
   (function () {
+    var strip = document.querySelector('.ticker-strip');
     var track = document.getElementById('tickerTrack');
-    if (!track) return;
+    if (!track || !strip) return;
     var symbols = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT', 'DOGEUSDT', 'ADAUSDT', 'AVAXUSDT'];
     var last = {};
+    var halfWidth = 0;
+    var x = 0;
+    var paused = false;
+    var lastFrame = null;
+    var SPEED = 34; // px/sec — deliberately independent of CSS/OS motion settings, like a real exchange ticker.
 
     function fmtPrice(v) {
       var n = parseFloat(v);
@@ -737,8 +734,10 @@
           '<span class="px">' + fmtPrice(t.lastPrice) + '</span>' +
           '<span class="chg ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(chg).toFixed(2) + '%</span></span>';
       }).join('');
-      // Duplicate the row once so the CSS marquee (translateX -50%) loops seamlessly.
+      // Duplicate the row once so the JS marquee loop below can wrap seamlessly.
       track.innerHTML = items + items;
+      // Half the track's width == one full lap, since it's the content duplicated x2.
+      halfWidth = track.scrollWidth / 2;
     }
 
     function poll() {
@@ -754,8 +753,25 @@
         });
     }
 
+    strip.addEventListener('mouseenter', function () { paused = true; });
+    strip.addEventListener('mouseleave', function () { paused = false; });
+    window.addEventListener('resize', function () { if (track.children.length) halfWidth = track.scrollWidth / 2; });
+
+    function tick(now) {
+      if (lastFrame === null) lastFrame = now;
+      var dt = (now - lastFrame) / 1000;
+      lastFrame = now;
+      if (!paused && halfWidth > 0) {
+        x -= SPEED * dt;
+        if (x <= -halfWidth) x += halfWidth;
+        track.style.transform = 'translateX(' + x + 'px)';
+      }
+      requestAnimationFrame(tick);
+    }
+
     poll();
     setInterval(poll, 25000);
+    requestAnimationFrame(tick);
   })();
 
   /* ---------------- i18n ---------------- */

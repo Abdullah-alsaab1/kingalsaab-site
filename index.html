@@ -382,6 +382,43 @@
     z-index: 0; pointer-events: none; opacity: .55;
   }
   header.site, main, section, footer { position: relative; z-index: 1; }
+
+  /* ---------- live price ticker strip ---------- */
+  .ticker-strip {
+    position: relative; z-index: 1;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-strip-track {
+    display: inline-flex;
+    align-items: center;
+    animation: tickerScroll 38s linear infinite;
+    will-change: transform;
+  }
+  .ticker-strip:hover .ticker-strip-track { animation-play-state: paused; }
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    display: inline-flex; align-items: baseline; gap: 8px;
+    padding: 9px 22px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    border-inline-end: 1px solid var(--border);
+    direction: ltr;
+  }
+  .ticker-item .sym { color: var(--text-dim); letter-spacing: .02em; }
+  .ticker-item .px { color: var(--text); font-variant-numeric: tabular-nums; }
+  .ticker-item .chg { font-variant-numeric: tabular-nums; }
+  .ticker-item .chg.up { color: var(--green); }
+  .ticker-item .chg.down { color: var(--red); }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-strip-track { animation: none; }
+    .ticker-strip { overflow-x: auto; }
+  }
 </style>
 </head>
 <body>
@@ -405,6 +442,10 @@
     </div>
   </div>
 </header>
+
+<div class="ticker-strip" aria-hidden="true">
+  <div class="ticker-strip-track" id="tickerTrack"></div>
+</div>
 
 <main class="wrap hero">
   <div>
@@ -670,6 +711,50 @@
       if (!reduceMotion) requestAnimationFrame(frame);
     }
     frame();
+  })();
+
+  /* ---------------- live price ticker strip ---------------- */
+  (function () {
+    var track = document.getElementById('tickerTrack');
+    if (!track) return;
+    var symbols = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT', 'DOGEUSDT', 'ADAUSDT', 'AVAXUSDT'];
+    var last = {};
+
+    function fmtPrice(v) {
+      var n = parseFloat(v);
+      if (n >= 100) return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+      if (n >= 1) return n.toLocaleString('en-US', { maximumFractionDigits: 4 });
+      return n.toLocaleString('en-US', { maximumFractionDigits: 6 });
+    }
+
+    function render(data) {
+      var items = data.map(function (t) {
+        var chg = parseFloat(t.priceChangePercent);
+        var up = chg >= 0;
+        var sym = t.symbol.replace('USDT', '/USDT');
+        return '<span class="ticker-item"><span class="sym">' + sym + '</span>' +
+          '<span class="px">' + fmtPrice(t.lastPrice) + '</span>' +
+          '<span class="chg ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(chg).toFixed(2) + '%</span></span>';
+      }).join('');
+      // Duplicate the row once so the CSS marquee (translateX -50%) loops seamlessly.
+      track.innerHTML = items + items;
+    }
+
+    function poll() {
+      var url = 'https://api.binance.com/api/v3/ticker/24hr?symbols=' + encodeURIComponent(JSON.stringify(symbols));
+      fetch(url)
+        .then(function (r) { if (!r.ok) throw new Error('bad status'); return r.json(); })
+        .then(function (data) {
+          if (Array.isArray(data) && data.length) { last = data; render(data); }
+        })
+        .catch(function () {
+          // Transient network hiccup: keep showing the last good prices rather than blanking the strip.
+          if (Array.isArray(last) && last.length) render(last);
+        });
+    }
+
+    poll();
+    setInterval(poll, 25000);
   })();
 
   /* ---------------- i18n ---------------- */

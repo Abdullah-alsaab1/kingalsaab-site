@@ -576,10 +576,11 @@
           <span class="chip">عربي</span>
         </div>
         <div class="dl-row">
-          <a class="dl-btn" href="https://github.com/Abdullah-alsaab1/kingalsaab-site/releases/latest/download/CODEBLADE.apk" rel="noopener">📱 <span><span data-i18n="dl_android">حمّل لأندرويد</span><small>APK · 12 MB</small></span></a>
+          <a class="dl-btn" href="https://codeblade.net/CODEBLADE.apk" rel="noopener">📱 <span><span data-i18n="dl_android">حمّل لأندرويد</span><small>APK · 12 MB</small></span></a>
           <a class="dl-btn alt" href="https://github.com/Abdullah-alsaab1/kingalsaab-site/releases/latest/download/CODEBLADE-Setup.exe" rel="noopener">💻 <span><span data-i18n="dl_windows">حمّل للكمبيوتر</span><small>Windows · 100 MB</small></span></a>
           <a class="dl-btn alt" href="https://github.com/Abdullah-alsaab1/kingalsaab-site/releases/latest/download/CODEBLADE-Portable.exe" rel="noopener">🗂 <span><span data-i18n="dl_portable">نسخة بدون تثبيت</span><small>Portable .exe</small></span></a>
         </div>
+        <a class="dl-btn alt" href="https://codeblade.net" rel="noopener" style="align-self:flex-start">🌐 <span>codeblade.net<small data-i18n="dl_site">موقع اللعبة — العب من المتصفح</small></span></a>
         <div class="dl-meta" id="cbVersion">v1.1.0 · 2026-10-23</div>
         <ol class="dl-steps">
           <li data-i18n="dl_step1">بالهاتف: افتح ملف CODEBLADE.apk بعد التحميل.</li>
@@ -835,7 +836,7 @@
   })();
 
   /* ---------------- CODEBLADE: رقم آخر نسخة ---------------- */
-  fetch("/codeblade/version.json", { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
+  fetch("https://codeblade.net/version.json", { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
     var el = document.getElementById("cbVersion");
     if (v && el) el.textContent = "v" + v.version + " · " + v.date + (v.notes ? " — " + v.notes : "");
   }).catch(function () {});
@@ -852,6 +853,7 @@
       chip_cars: "سيارات وطيارات",
       chip_code: "قتال بالكود",
       dl_android: "حمّل لأندرويد",
+      dl_site: "موقع اللعبة — العب من المتصفح",
       dl_windows: "حمّل للكمبيوتر",
       dl_portable: "نسخة بدون تثبيت",
       dl_step1: "بالهاتف: افتح ملف CODEBLADE.apk بعد التحميل.",
@@ -927,6 +929,7 @@
       chip_cars: "Cars & jets",
       chip_code: "Code-driven combat",
       dl_android: "Download for Android",
+      dl_site: "Game site — play in your browser",
       dl_windows: "Download for Windows",
       dl_portable: "Portable (no install)",
       dl_step1: "On your phone: open CODEBLADE.apk after it downloads.",

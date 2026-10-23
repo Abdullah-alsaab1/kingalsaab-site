@@ -298,24 +298,6 @@
   .play-badge:hover { background: var(--gold-deep); transform: translateY(-1px); }
   .play-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
   .app-shot { border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
-  /* ---------- الألعاب: تحميل مباشر ---------- */
-  .game-card { display: grid; grid-template-columns: 1.25fr 1fr; gap: 26px; align-items: center; }
-  .game-card .app-shot img { width: 100%; height: auto; display: block; }
-  .app-icon.game { background: color-mix(in srgb, #38f0ff 16%, var(--panel)); border: 1px solid color-mix(in srgb, #38f0ff 40%, transparent); }
-  .dl-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .dl-btn {
-    display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
-    padding: 11px 16px; border-radius: 10px; font-weight: 700; font-size: 14px;
-    background: var(--gold); color: var(--bg); border: 1px solid transparent;
-    transition: background .15s ease, transform .15s ease;
-  }
-  .dl-btn:hover { background: var(--gold-deep); transform: translateY(-1px); }
-  .dl-btn.alt { background: transparent; color: var(--text); border-color: var(--border); }
-  .dl-btn.alt:hover { border-color: var(--gold); background: transparent; }
-  .dl-btn small { display: block; font-weight: 500; font-size: 11.5px; opacity: .75; }
-  .dl-meta { font-size: 12.5px; color: var(--text-faint); font-family: var(--mono); }
-  .dl-steps { margin: 0; padding-inline-start: 18px; color: var(--text-dim); font-size: 13.5px; line-height: 1.8; }
-  @media (max-width: 860px) { .game-card { grid-template-columns: 1fr; } }
   .app-shot img { width: 100%; display: block; }
 
   /* ---------- indicator / feature rows ---------- */
@@ -443,7 +425,6 @@
     </div>
     <nav class="links">
       <a href="#apps" data-i18n="nav_apps">التطبيقات</a>
-      <a href="#games" data-i18n="nav_games">الألعاب</a>
       <a href="#features" data-i18n="nav_features">المميزات</a>
       <a href="#support" data-i18n="nav_support">الدعم</a>
     </nav>
@@ -548,46 +529,6 @@
         </div>
       </article>
     </div>
-  </div>
-</section>
-
-<section id="games">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-label" data-i18n="games_label">الألعاب</div>
-      <h2 data-i18n="games_title">CODEBLADE — حمّلها مباشرة</h2>
-      <p class="section-desc" data-i18n="games_desc">بدون متجر وبدون انتظار: نسخة الهاتف والكمبيوتر من هون مباشرة، واللعبة بتنبهك لحالها أول ما تنزل نسخة جديدة.</p>
-    </div>
-    <article class="app-card game-card">
-      <div class="app-shot"><img src="/shots/codeblade.jpg" alt="CODEBLADE gameplay on Android" loading="lazy" width="1200" height="540"></div>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div class="app-head">
-          <div class="app-icon game">⚔️</div>
-          <div>
-            <h3>CODEBLADE</h3>
-            <div class="app-sub">3D open-world action · Android + Windows</div>
-          </div>
-        </div>
-        <p class="desc" data-i18n="cb_desc">عالم مفتوح ثلاثي الأبعاد: مدن كاملة بسير وإشارات، سيارات تنطعج، أبطال، قفص وحوش فضائية، وقتال بتعدّل حركاته بالكود نفسه.</p>
-        <div class="chip-row">
-          <span class="chip" data-i18n="chip_openworld">عالم مفتوح</span>
-          <span class="chip" data-i18n="chip_cars">سيارات وطيارات</span>
-          <span class="chip" data-i18n="chip_code">قتال بالكود</span>
-          <span class="chip">عربي</span>
-        </div>
-        <div class="dl-row">
-          <a class="dl-btn" href="https://github.com/Abdullah-alsaab1/kingalsaab-site/releases/latest/download/CODEBLADE.apk" rel="noopener">📱 <span><span data-i18n="dl_android">حمّل لأندرويد</span><small>APK · 12 MB</small></span></a>
-          <a class="dl-btn alt" href="https://github.com/Abdullah-alsaab1/kingalsaab-site/releases/latest/download/CODEBLADE-Setup.exe" rel="noopener">💻 <span><span data-i18n="dl_windows">حمّل للكمبيوتر</span><small>Windows · 100 MB</small></span></a>
-          <a class="dl-btn alt" href="https://github.com/Abdullah-alsaab1/kingalsaab-site/releases/latest/download/CODEBLADE-Portable.exe" rel="noopener">🗂 <span><span data-i18n="dl_portable">نسخة بدون تثبيت</span><small>Portable .exe</small></span></a>
-        </div>
-        <div class="dl-meta" id="cbVersion">v1.1.0 · 2026-10-23</div>
-        <ol class="dl-steps">
-          <li data-i18n="dl_step1">بالهاتف: افتح ملف CODEBLADE.apk بعد التحميل.</li>
-          <li data-i18n="dl_step2">إذا طلب، اسمح بـ «تثبيت تطبيقات غير معروفة» للمتصفح — مرة وحدة بس.</li>
-          <li data-i18n="dl_step3">بالكمبيوتر: شغّل CODEBLADE-Setup.exe، وإذا طلع تحذير ويندوز اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال».</li>
-        </ol>
-      </div>
-    </article>
   </div>
 </section>
 
@@ -834,29 +775,9 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ---------------- CODEBLADE: رقم آخر نسخة ---------------- */
-  fetch("/codeblade/version.json", { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
-    var el = document.getElementById("cbVersion");
-    if (v && el) el.textContent = "v" + v.version + " · " + v.date + (v.notes ? " — " + v.notes : "");
-  }).catch(function () {});
-
   /* ---------------- i18n ---------------- */
   var translations = {
     ar: {
-      nav_games: "الألعاب",
-      games_label: "الألعاب",
-      games_title: "CODEBLADE — حمّلها مباشرة",
-      games_desc: "بدون متجر وبدون انتظار: نسخة الهاتف والكمبيوتر من هون مباشرة، واللعبة بتنبهك لحالها أول ما تنزل نسخة جديدة.",
-      cb_desc: "عالم مفتوح ثلاثي الأبعاد: مدن كاملة بسير وإشارات، سيارات تنطعج، أبطال، قفص وحوش فضائية، وقتال بتعدّل حركاته بالكود نفسه.",
-      chip_openworld: "عالم مفتوح",
-      chip_cars: "سيارات وطيارات",
-      chip_code: "قتال بالكود",
-      dl_android: "حمّل لأندرويد",
-      dl_windows: "حمّل للكمبيوتر",
-      dl_portable: "نسخة بدون تثبيت",
-      dl_step1: "بالهاتف: افتح ملف CODEBLADE.apk بعد التحميل.",
-      dl_step2: "إذا طلب، اسمح بـ «تثبيت تطبيقات غير معروفة» للمتصفح — مرة وحدة بس.",
-      dl_step3: "بالكمبيوتر: شغّل CODEBLADE-Setup.exe، وإذا طلع تحذير ويندوز اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال».",
       nav_apps: "التطبيقات",
       nav_features: "المميزات",
       nav_support: "الدعم",
@@ -918,20 +839,6 @@
       priv_link_trader: "سياسة خصوصية KINGALSAAB Trader ↗"
     },
     en: {
-      nav_games: "Games",
-      games_label: "Games",
-      games_title: "CODEBLADE — direct download",
-      games_desc: "No store, no waiting: get the phone and PC versions right here — the game tells you itself when a new version is out.",
-      cb_desc: "A 3D open world: full cities with traffic and lights, cars that crumple, heroes, an alien beast cage, and combat you rewrite with real code.",
-      chip_openworld: "Open world",
-      chip_cars: "Cars & jets",
-      chip_code: "Code-driven combat",
-      dl_android: "Download for Android",
-      dl_windows: "Download for Windows",
-      dl_portable: "Portable (no install)",
-      dl_step1: "On your phone: open CODEBLADE.apk after it downloads.",
-      dl_step2: "If asked, allow “Install unknown apps” for your browser — only once.",
-      dl_step3: "On PC: run CODEBLADE-Setup.exe; if Windows warns you, click “More info” then “Run anyway”.",
       nav_apps: "Apps",
       nav_features: "Features",
       nav_support: "Support",
